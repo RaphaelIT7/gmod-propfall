@@ -1,6 +1,38 @@
 if game.GetMap() != "gm_propfall" then return end
 
+local FinishPos = Vector(-10653, 14229, 4352)
+local FinishDistance = 23731
+
+function surface.DrawFullCircle( x, y, radius, seg )
+	local cir = {}
+
+	table.insert( cir, { x = x, y = y, u = 0.5, v = 0.5 } )
+	for i = 0, seg do
+		local a = math.rad( ( i / seg ) * -360 )
+		table.insert( cir, { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 } )
+	end
+
+	local a = math.rad( 0 ) -- This is needed for non absolute segment counts
+	table.insert( cir, { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 } )
+
+	surface.DrawPoly( cir )
+end
+
 hook.Add("HUDPaint", "PropFall.TimeLeft", function()
+
+	// Distance
+	local pos = LocalPlayer():GetPos()
+	local vec = Vector(pos[1], FinishPos[2], pos[3])
+	local dist = vec:Distance(FinishPos)
+	surface.SetDrawColor(100, 100, 100, 255)
+	surface.DrawRect(ScrW() - 112.5, ScrH() / 10, 25, 5)
+	surface.DrawRect(ScrW() - 112.5, ScrH() / 10 + FinishDistance / 28 + 10, 25, 5)
+	surface.DrawRect(ScrW() - 102.5, ScrH() / 10, 5, math.Clamp(dist / 28, 0, 860))
+	surface.SetDrawColor(0, 255, 0, 255)
+	surface.DrawRect(ScrW() - 102.5 ,ScrH() / 10 + math.Clamp(dist / 28, 15, 845), 5, 858 - math.Clamp(dist / 28, 15, 845))
+	surface.DrawFullCircle(ScrW() - 100, ScrH() / 10 + math.Clamp(dist / 28, 15, 845), 10, 10)
+
+	// TimeLeft
 	surface.SetDrawColor(200, 200, 200, 200)
 	surface.DrawRect(ScrW() / 2 - 60, ScrH() / 40, 140, 20)
 	surface.SetFont("ChatFont")
@@ -254,4 +286,16 @@ net.Receive("PropFall.Vote", function()
 			timer.Create("Insane.Votes", 0.02, -1, function()
 				votes:SetText("Votes : " .. GetGlobalInt("PropFall.Votes.Insane"))
 			end)
+end)
+
+net.Receive("PropFall.Death", function()
+	local Ent = {[1] = net.ReadEntity()}
+	local HaloColor = Color(255, 0, 0, 255)
+	hook.Add("PreDrawHalos", "PropFall.DeathHalo", function()
+		halo.Add(Ent, HaloColor, 10, 10, 5, true, true)
+	end)
+
+	timer.Simple(5, function()
+		hook.Remove("PreDrawHalos", "PropFall.DeathHalo")
+	end)
 end)

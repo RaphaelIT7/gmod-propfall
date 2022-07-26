@@ -1,7 +1,30 @@
-if game.GetMap() != "gm_propfall" then return end
+if game.GetMap() != "gm_propfall" or PropFall != nil then return end // we don't want lua autorefresh
 
 util.AddNetworkString("PropFall.Vote")
+util.AddNetworkString("PropFall.Death")
 
+// Entity Index Optimization
+local meta = FindMetaTable("Entity")
+local GetTable = meta.GetTable
+local GetOwner = meta.GetOwner
+local Owner = "Owner"
+function meta:__index(key)
+	local val = meta[key]
+	if val != nil then return val end
+
+	local tab = GetTable(self)
+	if tab then
+		local val = tab[key]
+		if val != nil then return val end
+	end
+
+	if key == Owner then return GetOwner(self) end
+
+	return nil
+end
+
+
+// tables
 PropFall = {}
 PropFall.Models = {
 	[1] = "models/xqm/jetbody3_s2.mdl",
@@ -31,51 +54,67 @@ PropFall.Votes = {}
 PropFall.Round = {} // Round data will be saved in this table
 PropFall.Spawns = {}
 PropFall.Spawners = {}
+
+// config
 PropFall.TimeLeft = 600
 PropFall.VoteTime = 60
 PropFall.StartDelay = 30
 PropFall.Difficulty = { // Spawn Delay in seconds
-	["Easy"] = 1,
-	["Medium"] = 0.5,
-	["Hard"] = 0.25,
-	["Insane"] = 0.1,
+	["Easy"] = 0.5,	// 2 props/sec
+	["Medium"] = 0.25, // 4 props/sec
+	["Hard"] = 0.125,	// 8 props/sec
+	["Insane"] = 0.0625, // 16 props/sec
 }
 
+// enums
+PropFall.Waiting = 1
+PropFall.Starting = 2
+PropFall.Started = 3
+PropFall.Finished = 4
+
+local IsValid = IsValid
+local reg = debug.getregistry()
+local GetPos = reg.Entity.GetPos
 local FindByClass = ents.FindByClass
 timer.Simple(0, function()
 	local Spawners = FindByClass("infodecal")
 	for k=1, #Spawners do
-		PropFall.Spawners[#PropFall.Spawners + 1] = Spawners[k]:GetPos()
+		if !IsValid(Spawners[k]) then return end
+		PropFall.Spawners[#PropFall.Spawners + 1] = GetPos(Spawners[k])
 	end
 
 	local Spawns = FindByClass("info_player_start")
 	for k=1, #Spawns do
-		PropFall.Spawns[#PropFall.Spawns + 1] = Spawns[k]:GetPos()
+		if !IsValid(Spawns[k]) then return end
+		PropFall.Spawns[#PropFall.Spawns + 1] = GetPos(Spawns[k])
 	end
 end)
 
 local Create = ents.Create
 local random = math.random
+local Spawn = reg.Entity.Spawn
+local SetPos = reg.Entity.SetPos
+local SetModel = reg.Entity.SetModel
+local GetPhysicsObject = reg.Entity.GetPhysicsObject
+local SetCustomCollisionCheck = reg.Entity.SetCustomCollisionCheck
 PropFall.Spawn = function()
 	local ent = Create("prop_physics")
-	ent:SetModel(PropFall.Models[random(1, #PropFall.Models)])
-	ent:SetPos(PropFall.Spawners[random(1, #PropFall.Spawners)])
-	ent:Spawn()
-	ent:SetCustomCollisionCheck(true)
+	SetModel(ent, PropFall.Models[random(1, #PropFall.Models)])
+	SetPos(ent, PropFall.Spawners[random(1, #PropFall.Spawners)])
+	Spawn(ent)
+	SetCustomCollisionCheck(ent, true)
 	ent.PropFall = true
-	local phys = ent:GetPhysicsObject()
+	local phys = GetPhysicsObject(ent)
 	phys:SetMass(1000)
 	phys:SetMaterial("gmod_bouncy")
 end
 
-local reg = debug.getregistry()
 local IsPlayer = reg.Entity.IsPlayer
 hook.Add("ShouldCollide", "PropFall.AntiLag", function(ent1, ent2)
 	return !(ent1.PropFall != nil and ent2.PropFall != nil)
 end)
 
 local Wake = reg.PhysObj.Wake
-local GetPhysicsObject = reg.Entity.GetPhysicsObject
 hook.Add("Think", "PropFall.AntiFreeze", function()
 	local entities = FindByClass("prop_physics")
 	for k=1, #entities do
@@ -94,10 +133,10 @@ PropFall.Spawner = function(mode)
 end
 
 local DMG_RADIATION = DMG_RADIATION
-local HUD_PRINTCENTER = HUD_PRINTCENTER
 local MOVETYPE_NOCLIP = MOVETYPE_NOCLIP
 local COLLISION_GROUP_WEAPON = COLLISION_GROUP_WEAPON
 PropFall.Start = function()
+	PropFall.Round.Status = PropFall.Started
 	PropFall.Round.TimeLeft = PropFall.TimeLeft
 	timer.Create("PropFall.Timer", 1, -1, function()
 		PropFall.Round.TimeLeft = PropFall.Round.TimeLeft - 1
@@ -125,13 +164,21 @@ PropFall.Start = function()
 	hook.Add("PlayerSpawn", "PropFall.Spawn", function(ply)
 		ply:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	end)
+
+	hook.Add("DoPlayerDeath", "PropFall.Death", function(ply, ent)
+		net.Start("PropFall.Death")
+			net.WriteEntity(ent)
+		net.Send(ply)
+	end)
 end
 
 PropFall.Finish = function()
 	timer.Remove("PropFall.Spawner")
 	timer.Remove("PropFall.Timer")
+	hook.Remove("DoPlayerDeath", "PropFall.Death")
 	hook.Remove("EntityTakeDamage", "PropFall.Finish")
 	SetGlobalInt("PropFall.TimeLeft", 0)
+	PropFall.Round.Status = PropFall.Finished
 
 	if #PropFall.Round.Finishers > 0 then
 		local k = 1
@@ -156,8 +203,10 @@ local MOVETYPE_NONE = MOVETYPE_NONE
 PropFall.CountDown = function(mode)
 	timer.Remove("PropFall.Spawner")
 	timer.Remove("PropFall.Timer")
+	hook.Remove("DoPlayerDeath", "PropFall.Death")
 	hook.Remove("EntityTakeDamage", "PropFall.Finish")
 	SetGlobalInt("PropFall.TimeLeft", PropFall.TimeLeft)
+	PropFall.Round.Status = PropFall.Starting
 	PropFall.Spawner(mode)
 
 	local entities = FindByClass("prop_physics")
@@ -191,6 +240,7 @@ PropFall.Waiting = function()
 	SetGlobalInt("PropFall.VoteTime", 0)
 	PropFall.Round = {}
 	PropFall.Round.Finishers = {}
+	PropFall.Round.Status = PropFall.Waiting
 
 	net.Start("PropFall.Vote")
 		net.WriteBool(false)
@@ -225,6 +275,7 @@ local pairs = pairs
 local SetGlobalInt = SetGlobalInt
 net.Receive("PropFall.Vote", function(_, ply)
 	local vote = net.ReadUInt(3)
+	if PropFall.Round.Status != PropFall.Waiting then return end
 	PropFall.Votes[ply] = vote
 
 	// recount
@@ -254,7 +305,7 @@ net.Receive("PropFall.Vote", function(_, ply)
 
 	if Easy > 0 or Medium > 0 or Hard > 0 or Insane > 0 then
 		if !timer.Exists("PropFall.Voting") then
-			local time = PropFall.VoteTime
+			local time = (Easy + Medium + Hard + Insane) == player.GetCount() and 5 or PropFall.VoteTime
 			timer.Create("PropFall.Voting", 1, time, function()
 				SetGlobalInt("PropFall.VoteTime", time)
 				time = time - 1
@@ -295,6 +346,10 @@ net.Receive("PropFall.Vote", function(_, ply)
 					PropFall.CountDown(highest[2])
 				end
 			end)
+		else
+			if (Easy + Medium + Hard + Insane) == player.GetCount() then
+				timer.Adjust("PropFall.Voting", 1, 5)
+			end
 		end
 	end
 end)
