@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "9351"
-	"mapversion" "29"
+	"mapversion" "30"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -20,7 +20,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "29"
+	"mapversion" "30"
 	"classname" "worldspawn"
 	"comment" "Decompiled by BSPSource v1.4.0 from gm_slopes"
 	"detailmaterial" "detail/detailsprites"
@@ -178,9 +178,9 @@ world
 		{
 			"id" "16"
 			"plane" "(-10618.9 15445.6 4352) (6716 15445.6 -11488.8) (6716 12182 -11488.8)"
-			"material" "TOOLS/TOOLSNODRAW"
-			"uaxis" "[0 1 0 -23] 0.25"
-			"vaxis" "[1 0 0 16] 0.25"
+			"material" "CONCRETE/CONCRETEFLOOR033K"
+			"uaxis" "[0 1 0 156] 0.25"
+			"vaxis" "[1 0 0 -163] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -5724,8 +5724,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[6760.45 15225.5 -11070.9]"
-		"look" "[6782.73 14960.3 -11061.6]"
+		"position" "[6491.05 14410.3 -11137.5]"
+		"look" "[6240 14394.5 -11225.1]"
 	}
 	camera
 	{

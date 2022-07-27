@@ -1,29 +1,33 @@
 if game.GetMap() != "gm_propfall" then return end
 
-local FinishPos = Vector(-10653, 14229, 4352)
-local FinishDistance = 23731
-
-function surface.DrawFullCircle( x, y, radius, seg )
+function surface.DrawFullCircle(x, y, radius, seg)
 	local cir = {}
 
-	table.insert( cir, { x = x, y = y, u = 0.5, v = 0.5 } )
+	table.insert(cir, {x = x, y = y, u = 0.5, v = 0.5})
 	for i = 0, seg do
-		local a = math.rad( ( i / seg ) * -360 )
-		table.insert( cir, { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 } )
+		local a = math.rad((i / seg) * -360)
+		table.insert(cir, {x = x + math.sin(a) * radius, y = y + math.cos(a) * radius, u = math.sin(a) / 2 + 0.5, v = math.cos(a) / 2 + 0.5})
 	end
-
-	local a = math.rad( 0 ) -- This is needed for non absolute segment counts
-	table.insert( cir, { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 } )
-
-	surface.DrawPoly( cir )
+	local a = math.rad(0) -- This is needed for non absolute segment counts
+	table.insert(cir, {x = x + math.sin(a) * radius, y = y + math.cos(a) * radius, u = math.sin(a) / 2 + 0.5, v = math.cos(a) / 2 + 0.5})
+	surface.DrawPoly(cir)
 end
+
+local FinishPos = FinishPos
+local StartPos = StartPos
+local FinishDistance = FinishDistance
+timer.Simple(0, function()
+	FinishPos = GetGlobalVector("PropFall.FinishPos")
+	StartPos = GetGlobalVector("PropFall.StartPos")
+	FinishDistance = FinishPos:Distance(Vector(StartPos[1], FinishPos[2], StartPos[3]))
+end)
 
 hook.Add("HUDPaint", "PropFall.TimeLeft", function()
 
 	// Distance
 	local pos = LocalPlayer():GetPos()
 	local vec = Vector(pos[1], FinishPos[2], pos[3])
-	local dist = vec:Distance(FinishPos)
+	local dist = LocalPlayer():GetNWBool("Finished") and 15 or vec:Distance(FinishPos)
 	surface.SetDrawColor(100, 100, 100, 255)
 	surface.DrawRect(ScrW() - 112.5, ScrH() / 10, 25, 5)
 	surface.DrawRect(ScrW() - 112.5, ScrH() / 10 + FinishDistance / 28 + 10, 25, 5)

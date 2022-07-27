@@ -75,9 +75,13 @@ PropFall.Finished = 4
 local IsValid = IsValid
 local reg = debug.getregistry()
 local GetPos = reg.Entity.GetPos
+local FindByName = ents.FindByName
 local FindByClass = ents.FindByClass
 timer.Simple(0, function()
-	local Spawners = FindByClass("infodecal")
+	SetGlobalVector("PropFall.FinishPos", FindByName("PropFall_FinishLine")[1]:GetPos())
+	SetGlobalVector("PropFall.StartPos", FindByName("PropFall_StartLine")[1]:GetPos())
+
+	local Spawners = FindByName("PropFall_Spawner")
 	for k=1, #Spawners do
 		if !IsValid(Spawners[k]) then return end
 		PropFall.Spawners[#PropFall.Spawners + 1] = GetPos(Spawners[k])
@@ -126,6 +130,10 @@ hook.Add("PlayerLoadout", "PropFall.NoLoadout", function()
 	return true
 end)
 
+hook.Add("Initialize", "PropFall.Initialize", function()
+	PropFall.Waiting()
+end)
+
 PropFall.Spawner = function(mode)
 	timer.Create("PropFall.Spawner", PropFall.Difficulty[mode], -1, function()
 		PropFall.Spawn()
@@ -149,11 +157,13 @@ PropFall.Start = function()
 	hook.Add("EntityTakeDamage", "PropFall.Finish", function(ply, info)
 		if info:GetDamageType() != DMG_RADIATION then return end
 		ply:SetMoveType(MOVETYPE_NOCLIP)
-		if !ply.finished then
+		if !ply:GetNWBool("Finished") then
 			PropFall.Round.Finishers[#PropFall.Round.Finishers + 1] = ply
-			ply.finished = true
+			ply:SetNWBool("Finished", true)
 			PrintMessage(HUD_PRINTTALK, ply:Nick() .. " has reached the Top")
-			if #PropFall.Round.Finishers == 1 then
+			if #PropFall.Round.Finishers == player.GetCount() then
+				PropFall.Finish()
+			elseif #PropFall.Round.Finishers == 1 then
 				PrintMessage(HUD_PRINTCENTER, "you have 1 minute left")
 				PropFall.Round.TimeLeft = 60
 			end
@@ -170,12 +180,19 @@ PropFall.Start = function()
 			net.WriteEntity(ent)
 		net.Send(ply)
 	end)
+
+	hook.Add("PlayerNoClip", "PropFall.Noclip", function(ply)
+		if ply:GetNWBool("Finished") then
+			return true
+		end
+	end)
 end
 
 PropFall.Finish = function()
 	timer.Remove("PropFall.Spawner")
 	timer.Remove("PropFall.Timer")
 	hook.Remove("DoPlayerDeath", "PropFall.Death")
+	hook.Remove("PlayerNoClip", "PropFall.Noclip")
 	hook.Remove("EntityTakeDamage", "PropFall.Finish")
 	SetGlobalInt("PropFall.TimeLeft", 0)
 	PropFall.Round.Status = PropFall.Finished
@@ -204,6 +221,7 @@ PropFall.CountDown = function(mode)
 	timer.Remove("PropFall.Spawner")
 	timer.Remove("PropFall.Timer")
 	hook.Remove("DoPlayerDeath", "PropFall.Death")
+	hook.Remove("PlayerNoClip", "PropFall.Noclip")
 	hook.Remove("EntityTakeDamage", "PropFall.Finish")
 	SetGlobalInt("PropFall.TimeLeft", PropFall.TimeLeft)
 	PropFall.Round.Status = PropFall.Starting
@@ -266,10 +284,6 @@ PropFall.Waiting = function()
 		ply:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	end)
 end
-
-hook.Add("Initialize", "PropFall.Initialize", function()
-	PropFall.Waiting()
-end)
 
 local pairs = pairs
 local SetGlobalInt = SetGlobalInt

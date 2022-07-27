@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "9351"
-	"mapversion" "30"
+	"mapversion" "31"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -20,7 +20,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "30"
+	"mapversion" "31"
 	"classname" "worldspawn"
 	"comment" "Decompiled by BSPSource v1.4.0 from gm_slopes"
 	"detailmaterial" "detail/detailsprites"
@@ -3851,8 +3851,8 @@ entity
 {
 	"id" "41693"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15352 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 15408 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -3865,8 +3865,8 @@ entity
 {
 	"id" "41699"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15312 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 15276.2 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -3879,8 +3879,8 @@ entity
 {
 	"id" "41703"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15246 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 15058.8 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -3893,8 +3893,8 @@ entity
 {
 	"id" "41725"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15279 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 15167.5 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -3907,8 +3907,8 @@ entity
 {
 	"id" "41739"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15216 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 14959.9 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -3921,8 +3921,8 @@ entity
 {
 	"id" "41765"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15048 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 14406.4 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -3935,8 +3935,8 @@ entity
 {
 	"id" "41767"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15184 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 14854.5 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -3949,8 +3949,8 @@ entity
 {
 	"id" "41769"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15144 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 14722.7 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -3963,8 +3963,8 @@ entity
 {
 	"id" "41771"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15111 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 14614 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -3977,8 +3977,8 @@ entity
 {
 	"id" "41773"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15078 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 14505.3 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -3991,8 +3991,8 @@ entity
 {
 	"id" "41855"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15352 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 15408 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4005,8 +4005,8 @@ entity
 {
 	"id" "41857"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15312 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 15276.2 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4019,8 +4019,8 @@ entity
 {
 	"id" "41859"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15246 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 15058.8 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4033,8 +4033,8 @@ entity
 {
 	"id" "41861"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15279 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 15167.5 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4047,8 +4047,8 @@ entity
 {
 	"id" "41863"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15216 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 14959.9 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4061,8 +4061,8 @@ entity
 {
 	"id" "41865"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15048 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 14406.4 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4075,8 +4075,8 @@ entity
 {
 	"id" "41867"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15184 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 14854.5 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4089,8 +4089,8 @@ entity
 {
 	"id" "41869"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15144 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 14722.7 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4103,8 +4103,8 @@ entity
 {
 	"id" "41871"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15111 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 14614 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4117,8 +4117,8 @@ entity
 {
 	"id" "41873"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15078 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 14505.3 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4131,8 +4131,8 @@ entity
 {
 	"id" "41975"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15352 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 15408 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4145,8 +4145,8 @@ entity
 {
 	"id" "41977"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15312 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 15276.2 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4159,8 +4159,8 @@ entity
 {
 	"id" "41979"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15246 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 15058.8 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4173,8 +4173,8 @@ entity
 {
 	"id" "41981"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15279 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 15167.5 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4187,8 +4187,8 @@ entity
 {
 	"id" "41983"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15216 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 14959.9 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4201,8 +4201,8 @@ entity
 {
 	"id" "41985"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15048 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 14406.4 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4215,8 +4215,8 @@ entity
 {
 	"id" "41987"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15184 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 14854.5 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4229,8 +4229,8 @@ entity
 {
 	"id" "41989"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15144 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 14722.7 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4243,8 +4243,8 @@ entity
 {
 	"id" "41991"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15111 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 14614 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4257,8 +4257,8 @@ entity
 {
 	"id" "41993"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15078 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 14505.3 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4271,8 +4271,8 @@ entity
 {
 	"id" "42135"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 15016 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 14301 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4285,8 +4285,8 @@ entity
 {
 	"id" "42137"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14976 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 14169.2 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4299,8 +4299,8 @@ entity
 {
 	"id" "42139"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14910 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 13951.8 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4313,8 +4313,8 @@ entity
 {
 	"id" "42141"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14943 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 14060.5 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4327,8 +4327,8 @@ entity
 {
 	"id" "42143"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14880 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 13852.9 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4341,8 +4341,8 @@ entity
 {
 	"id" "42145"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14712 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 13299.4 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4355,8 +4355,8 @@ entity
 {
 	"id" "42147"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14848 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 13747.5 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4369,8 +4369,8 @@ entity
 {
 	"id" "42149"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14808 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 13615.7 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4383,8 +4383,8 @@ entity
 {
 	"id" "42151"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14775 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 13507 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4397,8 +4397,8 @@ entity
 {
 	"id" "42153"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14742 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 13398.3 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4411,8 +4411,8 @@ entity
 {
 	"id" "42155"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 15016 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 14301 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4425,8 +4425,8 @@ entity
 {
 	"id" "42157"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 15016 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 14301 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4439,8 +4439,8 @@ entity
 {
 	"id" "42159"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14976 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 14169.2 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4453,8 +4453,8 @@ entity
 {
 	"id" "42161"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14976 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 14169.2 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4467,8 +4467,8 @@ entity
 {
 	"id" "42163"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14943 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 14060.5 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4481,8 +4481,8 @@ entity
 {
 	"id" "42165"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14943 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 14060.5 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4495,8 +4495,8 @@ entity
 {
 	"id" "42167"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14910 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 13951.8 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4509,8 +4509,8 @@ entity
 {
 	"id" "42169"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14910 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 13951.8 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4523,8 +4523,8 @@ entity
 {
 	"id" "42171"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14880 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 13852.9 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4537,8 +4537,8 @@ entity
 {
 	"id" "42173"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14880 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 13852.9 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4551,8 +4551,8 @@ entity
 {
 	"id" "42175"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14848 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 13747.5 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4565,8 +4565,8 @@ entity
 {
 	"id" "42177"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14848 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 13747.5 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4579,8 +4579,8 @@ entity
 {
 	"id" "42179"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14775 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 13507 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4593,8 +4593,8 @@ entity
 {
 	"id" "42181"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14808 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 13615.7 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4607,8 +4607,8 @@ entity
 {
 	"id" "42183"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14808 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 13615.7 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4621,8 +4621,8 @@ entity
 {
 	"id" "42185"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14775 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 13507 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4635,8 +4635,8 @@ entity
 {
 	"id" "42187"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14712 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 13299.4 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4649,8 +4649,8 @@ entity
 {
 	"id" "42189"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14742 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 13398.3 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4663,8 +4663,8 @@ entity
 {
 	"id" "42191"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14742 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 13398.3 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4677,8 +4677,8 @@ entity
 {
 	"id" "42193"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14712 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 13299.4 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4691,8 +4691,8 @@ entity
 {
 	"id" "42375"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14680 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 13194 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4705,8 +4705,8 @@ entity
 {
 	"id" "42377"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14640 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 13062.2 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4719,8 +4719,8 @@ entity
 {
 	"id" "42379"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14574 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 12844.8 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4733,8 +4733,8 @@ entity
 {
 	"id" "42381"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14607 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 12953.5 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4747,8 +4747,8 @@ entity
 {
 	"id" "42383"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14544 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 12745.9 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4761,8 +4761,8 @@ entity
 {
 	"id" "42385"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14376 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 12192.4 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4775,8 +4775,8 @@ entity
 {
 	"id" "42387"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14512 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 12640.5 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4789,8 +4789,8 @@ entity
 {
 	"id" "42389"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14472 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 12508.7 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4803,8 +4803,8 @@ entity
 {
 	"id" "42391"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14439 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 12400 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4817,8 +4817,8 @@ entity
 {
 	"id" "42393"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9480 14406 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8475.64 12291.3 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4831,8 +4831,8 @@ entity
 {
 	"id" "42395"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14680 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 13194 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4845,8 +4845,8 @@ entity
 {
 	"id" "42397"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14680 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 13194 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4859,8 +4859,8 @@ entity
 {
 	"id" "42399"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14640 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 13062.2 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4873,8 +4873,8 @@ entity
 {
 	"id" "42401"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14640 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 13062.2 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4887,8 +4887,8 @@ entity
 {
 	"id" "42403"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14607 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 12953.5 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4901,8 +4901,8 @@ entity
 {
 	"id" "42405"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14607 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 12953.5 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4915,8 +4915,8 @@ entity
 {
 	"id" "42407"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14574 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 12844.8 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4929,8 +4929,8 @@ entity
 {
 	"id" "42409"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14574 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 12844.8 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4943,8 +4943,8 @@ entity
 {
 	"id" "42411"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14544 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 12745.9 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4957,8 +4957,8 @@ entity
 {
 	"id" "42413"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14544 -11455"
+	"angles" "0 181.544 0"
+	"origin" "8783 12745.9 -11455"
 	editor
 	{
 		"color" "0 255 0"
@@ -4971,8 +4971,8 @@ entity
 {
 	"id" "42415"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14512 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 12640.5 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4985,8 +4985,8 @@ entity
 {
 	"id" "42417"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14512 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 12640.5 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -4999,8 +4999,8 @@ entity
 {
 	"id" "42419"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14439 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 12400 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -5013,8 +5013,8 @@ entity
 {
 	"id" "42421"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14472 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 12508.7 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -5027,8 +5027,8 @@ entity
 {
 	"id" "42423"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14472 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 12508.7 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -5041,8 +5041,8 @@ entity
 {
 	"id" "42425"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14439 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 12400 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -5055,8 +5055,8 @@ entity
 {
 	"id" "42427"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14376 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 12192.4 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -5069,8 +5069,8 @@ entity
 {
 	"id" "42429"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9512 14406 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8612.24 12291.3 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -5083,8 +5083,8 @@ entity
 {
 	"id" "42431"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14406 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 12291.3 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -5097,8 +5097,8 @@ entity
 {
 	"id" "42433"
 	"classname" "info_player_start"
-	"angles" "0 182 0"
-	"origin" "9552 14376 -11456"
+	"angles" "0 181.544 0"
+	"origin" "8783 12192.4 -11456"
 	editor
 	{
 		"color" "0 255 0"
@@ -5112,7 +5112,7 @@ entity
 	"id" "42615"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 13623.6 5712"
 	editor
@@ -5128,7 +5128,7 @@ entity
 	"id" "42677"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	connections
 	{
@@ -5148,7 +5148,7 @@ entity
 	"id" "42705"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 13261.4 5711"
 	editor
@@ -5164,7 +5164,7 @@ entity
 	"id" "42709"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 13384 5711"
 	editor
@@ -5180,7 +5180,7 @@ entity
 	"id" "42777"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 13739 5711"
 	editor
@@ -5196,7 +5196,7 @@ entity
 	"id" "42781"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 13861.6 5711"
 	editor
@@ -5212,7 +5212,7 @@ entity
 	"id" "42785"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 13978.6 5712"
 	editor
@@ -5228,7 +5228,7 @@ entity
 	"id" "42789"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 14101.1 5712"
 	editor
@@ -5244,7 +5244,7 @@ entity
 	"id" "43064"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	connections
 	{
@@ -5264,7 +5264,7 @@ entity
 	"id" "43068"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 14210 5710.6"
 	editor
@@ -5280,7 +5280,7 @@ entity
 	"id" "43072"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 14332.6 5710.6"
 	editor
@@ -5296,7 +5296,7 @@ entity
 	"id" "43076"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 14687.6 5710.6"
 	editor
@@ -5312,7 +5312,7 @@ entity
 	"id" "43080"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 14810.1 5710.6"
 	editor
@@ -5328,7 +5328,7 @@ entity
 	"id" "43084"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 14927.1 5711.6"
 	editor
@@ -5344,7 +5344,7 @@ entity
 	"id" "43088"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 15049.7 5711.6"
 	editor
@@ -5360,7 +5360,7 @@ entity
 	"id" "43092"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 14572.1 5711.6"
 	editor
@@ -5376,7 +5376,7 @@ entity
 	"id" "43224"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	connections
 	{
@@ -5396,7 +5396,7 @@ entity
 	"id" "43232"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 12432.9 5711"
 	editor
@@ -5412,7 +5412,7 @@ entity
 	"id" "43236"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 12787.9 5711"
 	editor
@@ -5428,7 +5428,7 @@ entity
 	"id" "43240"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 12910.4 5711"
 	editor
@@ -5444,7 +5444,7 @@ entity
 	"id" "43244"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 13027.4 5712"
 	editor
@@ -5460,7 +5460,7 @@ entity
 	"id" "43248"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 13150 5712"
 	editor
@@ -5476,7 +5476,7 @@ entity
 	"id" "43252"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 12672.4 5712"
 	editor
@@ -5492,7 +5492,7 @@ entity
 	"id" "43340"
 	"classname" "infodecal"
 	"LowPriority" "0"
-	"targetname" "spawner"
+	"targetname" "PropFall_Spawner"
 	"texture" "materials/materials/tools/toolsnodraw"
 	"origin" "-10061 15162 5711"
 	editor
@@ -5719,13 +5719,45 @@ entity
 		"logicalpos" "[0 500]"
 	}
 }
+entity
+{
+	"id" "45566"
+	"classname" "infodecal"
+	"LowPriority" "0"
+	"targetname" "PropFall_FinishLine"
+	"texture" "materials/materials/tools/toolsnodraw"
+	"origin" "-10621 14360 4377.23"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[3500 -13268]"
+	}
+}
+entity
+{
+	"id" "45587"
+	"classname" "infodecal"
+	"LowPriority" "0"
+	"targetname" "PropFall_StartLine"
+	"texture" "materials/materials/tools/toolsnodraw"
+	"origin" "7039 13909 -11449"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[3500 -13268]"
+	}
+}
 cameras
 {
 	"activecamera" "0"
 	camera
 	{
-		"position" "[6491.05 14410.3 -11137.5]"
-		"look" "[6240 14394.5 -11225.1]"
+		"position" "[8852.96 13895.4 -11103.4]"
+		"look" "[8602.9 13874.4 -11192.8]"
 	}
 	camera
 	{
