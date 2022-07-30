@@ -53,17 +53,18 @@ PropFall.Models = {
 PropFall.Votes = {}
 PropFall.Round = {} // Round data will be saved in this table
 PropFall.Spawns = {}
+PropFall.Default = {}
 PropFall.Spawners = {}
 
 // config
-PropFall.TimeLeft = 600
-PropFall.VoteTime = 60
-PropFall.StartDelay = 30
-PropFall.Difficulty = { // Spawn Delay in seconds
-	["Easy"] = 0.5,	// 2 props/sec
-	["Medium"] = 0.25, // 4 props/sec
-	["Hard"] = 0.125,	// 8 props/sec
-	["Insane"] = 0.0625, // 16 props/sec
+PropFall.Default.TimeLeft = 600
+PropFall.Default.VoteTime = 60
+PropFall.Default.StartDelay = 30
+PropFall.Default.Difficulty = {
+	["Easy"] = 2,
+	["Medium"] = 4,
+	["Hard"] = 8,
+	["Insane"] = 16,
 }
 
 // enums
@@ -71,6 +72,47 @@ PropFall.Waiting = 1
 PropFall.Starting = 2
 PropFall.Started = 3
 PropFall.Finished = 4
+
+CreateConVar("propfall_roundtime", PropFall.Default.TimeLeft, FCVAR_ARCHIVE, "PropFall's round time")
+CreateConVar("propfall_votetime", PropFall.Default.VoteTime, FCVAR_ARCHIVE, "PropFall's vote time")
+CreateConVar("propfall_startdelay", PropFall.Default.StartDelay, FCVAR_ARCHIVE, "PropFall's delay before the Round starts")
+
+CreateConVar("propfall_difficulty.easy", PropFall.Default.Difficulty["Easy"], FCVAR_ARCHIVE, "PropFall's easy difficulty spawn delay")
+CreateConVar("propfall_difficulty.medium", PropFall.Default.Difficulty["Medium"], FCVAR_ARCHIVE, "PropFall's medium difficulty spawn delay")
+CreateConVar("propfall_difficulty.hard", PropFall.Default.Difficulty["Hard"], FCVAR_ARCHIVE, "PropFall's hard difficulty spawn delay")
+CreateConVar("propfall_difficulty.insane", PropFall.Default.Difficulty["Insane"], FCVAR_ARCHIVE, "PropFall's insane difficulty spawn delay")
+
+PropFall.TimeLeft = GetConVar("propfall_roundtime"):GetInt()
+PropFall.VoteTime = GetConVar("propfall_votetime"):GetInt()
+PropFall.StartDelay = GetConVar("propfall_startdelay"):GetInt()
+
+PropFall.Difficulty = {
+	["Easy"] = GetConVar("propfall_difficulty.easy"):GetInt(),
+	["Medium"] = GetConVar("propfall_difficulty.medium"):GetInt(),
+	["Hard"] = GetConVar("propfall_difficulty.hard"):GetInt(),
+	["Insane"] = GetConVar("propfall_difficulty.insane"):GetInt(),
+}
+
+cvars.AddChangeCallback("propfall_roundtime", function() PropFall.TimeLeft = GetConVar("propfall_roundtime"):GetInt() end, "propfall_roundtime")
+cvars.AddChangeCallback("propfall_votetime", function() PropFall.VoteTime = GetConVar("propfall_votetime"):GetInt() end, "propfall_votetime")
+cvars.AddChangeCallback("propfall_startdelay", function() PropFall.StartDelay = GetConVar("propfall_startdelay"):GetInt() end, "propfall_startdelay")
+
+cvars.AddChangeCallback("propfall_difficulty.easy", function() PropFall.Difficulty["Easy"] = GetConVar("propfall_difficulty.easy"):GetInt() end, "propfall_difficulty.easy")
+cvars.AddChangeCallback("propfall_difficulty.medium", function() PropFall.Difficulty["Medium"] = GetConVar("propfall_difficulty.medium"):GetInt() end, "propfall_difficulty.medium")
+cvars.AddChangeCallback("propfall_difficulty.hard", function() PropFall.Difficulty["Hard"] = GetConVar("propfall_difficulty.hard"):GetInt() end, "propfall_difficulty.hard")
+cvars.AddChangeCallback("propfall_difficulty.insane", function() PropFall.Difficulty["Insane"] = GetConVar("propfall_difficulty.insane"):GetInt() end, "propfall_difficulty.insane")
+
+concommand.Add("propfall.reset", function()
+	GetConVar("propfall_roundtime"):Revert()
+	GetConVar("propfall_votetime"):Revert()
+	GetConVar("propfall_startdelay"):Revert()
+	GetConVar("propfall_difficulty.easy"):Revert()
+	GetConVar("propfall_difficulty.medium"):Revert()
+	GetConVar("propfall_difficulty.hard"):Revert()
+	GetConVar("propfall_difficulty.insane"):Revert()
+end, nil, "Resets all PropFall Convars", FCVAR_PROTECTED)
+
+GetConVar("sbox_noclip"):SetInt(0)
 
 local IsValid = IsValid
 local reg = debug.getregistry()
@@ -135,13 +177,12 @@ hook.Add("Initialize", "PropFall.Initialize", function()
 end)
 
 PropFall.Spawner = function(mode)
-	timer.Create("PropFall.Spawner", PropFall.Difficulty[mode], -1, function()
+	timer.Create("PropFall.Spawner", 1 / PropFall.Difficulty[mode], -1, function()
 		PropFall.Spawn()
 	end)
 end
 
 local DMG_RADIATION = DMG_RADIATION
-local MOVETYPE_NOCLIP = MOVETYPE_NOCLIP
 local COLLISION_GROUP_WEAPON = COLLISION_GROUP_WEAPON
 PropFall.Start = function()
 	PropFall.Round.Status = PropFall.Started
@@ -156,7 +197,6 @@ PropFall.Start = function()
 	
 	hook.Add("EntityTakeDamage", "PropFall.Finish", function(ply, info)
 		if info:GetDamageType() != DMG_RADIATION then return end
-		ply:SetMoveType(MOVETYPE_NOCLIP)
 		if !ply:GetNWBool("Finished") then
 			PropFall.Round.Finishers[#PropFall.Round.Finishers + 1] = ply
 			ply:SetNWBool("Finished", true)
@@ -209,7 +249,7 @@ PropFall.Finish = function()
 
 	timer.Simple(5, function()
 		for k=1, #PropFall.Round.Finishers do
-			PropFall.Round.Finishers[k].finished = nil
+			PropFall.Round.Finishers[k]:SetNWBool("Finished", false)
 		end
 		PropFall.Waiting()
 	end)

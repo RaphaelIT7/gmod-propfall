@@ -28,20 +28,25 @@ hook.Add("HUDPaint", "PropFall.TimeLeft", function()
 	local pos = LocalPlayer():GetPos()
 	local vec = Vector(pos[1], FinishPos[2], pos[3])
 	local dist = LocalPlayer():GetNWBool("Finished") and 15 or vec:Distance(FinishPos)
+	local ScaleW = ScrW() / 1920
+	local ScaleH = ScrH() / 1080
+	local a = 25 * ScaleW
+	local b = 5 * ScaleH
+	local c = 5 * ScaleW
+	local d = 112.5 * ScaleW
+	local e = 102.5 * ScaleW
 	surface.SetDrawColor(100, 100, 100, 255)
-	surface.DrawRect(ScrW() - 112.5, ScrH() / 10, 25, 5)
-	surface.DrawRect(ScrW() - 112.5, ScrH() / 10 + FinishDistance / 28 + 10, 25, 5)
-	surface.DrawRect(ScrW() - 102.5, ScrH() / 10, 5, math.Clamp(dist / 28, 0, 860))
+	surface.DrawRect(ScrW() - d, (ScrH() / 10) * ScaleH, a, b)
+	surface.DrawRect(ScrW() - d, (ScrH() / 10 + FinishDistance / 28 + 10) * ScaleH, a, b)
+	surface.DrawRect(ScrW() - e, (ScrH() / 10) * ScaleH, c, math.Clamp(dist / 28, 0, 860) * ScaleH)
 	surface.SetDrawColor(0, 255, 0, 255)
-	surface.DrawRect(ScrW() - 102.5 ,ScrH() / 10 + math.Clamp(dist / 28, 15, 845), 5, 858 - math.Clamp(dist / 28, 15, 845))
-	surface.DrawFullCircle(ScrW() - 100, ScrH() / 10 + math.Clamp(dist / 28, 15, 845), 10, 10)
+	surface.DrawRect(ScrW() - e, (ScrH() / 10 + math.Clamp(dist / 28, 15, 845)) * ScaleH, c, (858 - math.Clamp(dist / 28, 13, 845)) * ScaleH)
+	surface.DrawFullCircle(ScrW() - (100 * ScaleW), (ScrH() / 10 + math.Clamp(dist / 28, 13, 845)) * ScaleH, 10 * ScaleW, 10 * ScaleH)
 
 	// TimeLeft
-	surface.SetDrawColor(200, 200, 200, 200)
-	surface.DrawRect(ScrW() / 2 - 60, ScrH() / 40, 140, 20)
 	surface.SetFont("ChatFont")
-	surface.SetTextColor(100, 100, 100, 255)
-	surface.SetTextPos(ScrW() / 2 - 57, ScrH() / 40)
+	surface.SetTextColor(50, 50, 50, 255)
+	surface.SetTextPos(ScrW() / 2 - (57  * ScaleW), (ScrH() / 40) * ScaleH)
 	surface.DrawText("Timeleft : " .. string.FormattedTime(GetGlobalInt("PropFall.TimeLeft"), "%02i:%02i"), false)
 end)
 
