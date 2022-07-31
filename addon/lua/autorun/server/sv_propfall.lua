@@ -257,7 +257,11 @@ PropFall.Finish = function()
 				net.WriteTable(top3)
 			net.Broadcast()
 		else
-			PrintMessage(HUD_PRINTCENTER, "The Winner is " .. PropFall.Round.Finishers[1]:Nick())
+			local k = 1
+			while !IsValid(PropFall.Round.Finishers[k]) and k < player.GetCount() do // if the first entry is invalid then check the next
+				k = k + 1
+			end
+			PrintMessage(HUD_PRINTCENTER, "The Winner is " .. PropFall.Round.Finishers[k]:Nick())
 		end
 	else
 		PrintMessage(HUD_PRINTCENTER, "There is no Winner")
