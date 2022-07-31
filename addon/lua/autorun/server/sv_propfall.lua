@@ -2,6 +2,7 @@ if game.GetMap() != "gm_propfall" or PropFall != nil then return end // we don't
 
 util.AddNetworkString("PropFall.Vote")
 util.AddNetworkString("PropFall.Death")
+util.AddNetworkString("PropFall.End")
 
 // Entity Index Optimization
 local meta = FindMetaTable("Entity")
@@ -200,6 +201,7 @@ PropFall.Start = function()
 		if !ply:GetNWBool("Finished") then
 			PropFall.Round.Finishers[#PropFall.Round.Finishers + 1] = ply
 			ply:SetNWBool("Finished", true)
+			ply:SetNWInt("Time", PropFall.TimeLeft - PropFall.Round.TimeLeft)
 			PrintMessage(HUD_PRINTTALK, ply:Nick() .. " has reached the Top")
 			if #PropFall.Round.Finishers == player.GetCount() then
 				PropFall.Finish()
@@ -238,16 +240,30 @@ PropFall.Finish = function()
 	PropFall.Round.Status = PropFall.Finished
 
 	if #PropFall.Round.Finishers > 0 then
-		local k = 1
-		while !IsValid(PropFall.Round.Finishers[k]) do // if the first entry is invalid then check the next
-			k = k + 1
+		if #PropFall.Round.Finishers > 2 then
+			local top3 = {}
+			for a = 1, 3 do
+				top3[a] = {}
+				top3[a][1] = nil
+			end
+
+			for a = 1, 3 do
+				if a > #PropFall.Round.Finishers then continue end
+				local searching = true
+
+				top3[a][1] = PropFall.Round.Finishers[a]
+			end
+			net.Start("PropFall.End")
+				net.WriteTable(top3)
+			net.Broadcast()
+		else
+			PrintMessage(HUD_PRINTCENTER, "The Winner is " .. PropFall.Round.Finishers[1]:Nick())
 		end
-		PrintMessage(HUD_PRINTCENTER, "The Winner is " .. PropFall.Round.Finishers[k]:Nick())
 	else
 		PrintMessage(HUD_PRINTCENTER, "There is no Winner")
 	end
 
-	timer.Simple(5, function()
+	timer.Simple(10, function()
 		for k=1, #PropFall.Round.Finishers do
 			PropFall.Round.Finishers[k]:SetNWBool("Finished", false)
 		end

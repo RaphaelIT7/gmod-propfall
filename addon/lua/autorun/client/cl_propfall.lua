@@ -50,7 +50,7 @@ hook.Add("HUDPaint", "PropFall.TimeLeft", function()
 	surface.DrawText("Timeleft : " .. string.FormattedTime(GetGlobalInt("PropFall.TimeLeft"), "%02i:%02i"), false)
 end)
 
-local frame
+local frame = frame or nil
 net.Receive("PropFall.Vote", function()
 	local bool = net.ReadBool()
 	if bool and IsValid(frame) then
@@ -295,6 +295,82 @@ net.Receive("PropFall.Vote", function()
 			timer.Create("Insane.Votes", 0.02, -1, function()
 				votes:SetText("Votes : " .. GetGlobalInt("PropFall.Votes.Insane"))
 			end)
+end)
+
+net.Receive("PropFall.End", function()
+	local top3 = net.ReadTable()
+	local matBlurScreen = Material("pp/blurscreen")
+	for a=1, #top3 do
+		local ply = top3[a][1]
+		if !IsValid(ply) then return end
+		top3[a][1] = ply:Nick()
+		top3[a][2] = ply:GetNWInt("Time")
+	end
+	local first_time = string.format(top3[1][2], "%02i:%02i")
+	local second_time = string.format(top3[2][2], "%02i:%02i")
+	local third_time = string.format(top3[3][2], "%02i:%02i")
+	local time = LocalPlayer():GetNWInt("Time")
+	PrintTable(top3)
+	hook.Add("HUDPaint", "PropFall.Winners", function()
+		surface.SetMaterial(matBlurScreen)
+		surface.SetDrawColor(255, 255, 255, 255)
+
+		for i=0.33, 1, 0.33 do
+			matBlurScreen:SetFloat( "$blur", 1 * 5 * i )
+			matBlurScreen:Recompute()
+			render.UpdateScreenEffectTexture()
+			surface.DrawTexturedRect(0, 0, ScrW(), ScrH() )
+		end
+
+		surface.SetDrawColor(200, 200, 200, 240)
+		surface.DrawRect(ScrW() / 12, ScrH() / 12, ScrW() / 1.2, ScrH() / 1.2)
+
+		if time != 0 then
+			surface.SetFont("DermaLarge")
+			surface.SetTextColor(0, 0, 0, 255)
+			surface.SetTextPos(ScrW() / 2.3, ScrH() / 10)
+			surface.DrawText("You're Time : " .. string.FormattedTime(time, "%02im %02is"))
+		end
+
+		surface.SetDrawColor(212, 175, 55, 255)
+		surface.DrawRect((ScrW() / 2 - (ScrW() / 20) / 2), ScrH() / 3, ScrW() / 20, ScrH() / 1.712)
+
+		surface.SetTextPos(ScrW() / 2.014, ScrH() / 2.5)
+		surface.DrawText("1")
+
+		surface.SetTextPos(ScrW() / 2.07, ScrH() / 3.0)
+		surface.DrawText(first_time)
+
+		surface.SetTextPos(ScrW() / 2.1, ScrH() / 3.28)
+		surface.DrawText(top3[1][1])
+
+		surface.SetDrawColor(168, 169, 173, 255)
+		surface.DrawRect((ScrW() / 3 - (ScrW() / 20) / 2), ScrH() / 2.158, ScrW() / 20, ScrH() / 2.2)
+
+		surface.SetTextPos(ScrW() / 3.04, ScrH() / 1.9)
+		surface.DrawText("2")
+
+		surface.SetTextPos(ScrW() / 3.17, ScrH() / 2.15)
+		surface.DrawText(second_time)
+
+		surface.SetTextPos(ScrW() / 3.25, ScrH() / 2.3)
+		surface.DrawText(top3[2][1])
+
+		surface.SetDrawColor(137, 73, 39, 255)
+		surface.DrawRect((ScrW() / 1.5 - (ScrW() / 20) / 2), ScrH() / 1.6, ScrW() / 20, ScrH() / 3.4)
+
+		surface.SetTextPos(ScrW() / 1.51, ScrH() / 1.45)
+		surface.DrawText("3")
+
+		surface.SetTextPos(ScrW() / 1.54, ScrH() / 1.6)
+		surface.DrawText(third_time)
+
+		surface.SetTextPos(ScrW() / 1.56, ScrH() / 1.68)
+		surface.DrawText(top3[3][1])
+	end)
+	timer.Simple(10, function()
+		hook.Remove("HUDPaint", "PropFall.Winners")
+	end)
 end)
 
 net.Receive("PropFall.Death", function()
