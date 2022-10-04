@@ -30,7 +30,7 @@ hook.Add("HUDPaint", "PropFall.TimeLeft", function()
 	local pos = LocalPlayer():GetPos()
 	local vec = Vector(pos[1], FinishPos[2], pos[3])
 	local dist = LocalPlayer():GetNWBool("Finished") and 15 or vec:Distance(FinishPos)
-	highscore = LocalPlayer():GetNWBool("Finished") and 24912 or highscore >= dist and dist or highscore	
+	highscore =  highscore >= dist and dist or highscore	
 	local ScaleW = ScrW() / 1920
 	local ScaleH = ScrH() / 1080
 	local a = 25 * ScaleW
@@ -307,7 +307,8 @@ net.Receive("PropFall.Vote", function()
 			end)
 end)
 
-net.Receive("PropFall.End", function()
+net.Receive("PropFall.End", function()	
+	highscore = 24912 		
 	local top3 = net.ReadTable()
 	local matBlurScreen = Material("pp/blurscreen")
 	for a=1, #top3 do
