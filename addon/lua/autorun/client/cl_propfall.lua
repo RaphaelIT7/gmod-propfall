@@ -16,10 +16,12 @@ end
 local FinishPos = FinishPos
 local StartPos = StartPos
 local FinishDistance = FinishDistance
+local highscore = highscore
 timer.Simple(0, function()
 	FinishPos = GetGlobalVector("PropFall.FinishPos")
 	StartPos = GetGlobalVector("PropFall.StartPos")
 	FinishDistance = FinishPos:Distance(Vector(StartPos[1], FinishPos[2], StartPos[3]))
+	highscore = FinishDistance
 end)
 
 hook.Add("HUDPaint", "PropFall.TimeLeft", function()
@@ -27,7 +29,7 @@ hook.Add("HUDPaint", "PropFall.TimeLeft", function()
 	// Distance
 	local pos = LocalPlayer():GetPos()
 	local vec = Vector(pos[1], FinishPos[2], pos[3])
-	local dist = LocalPlayer():GetNWBool("Finished") and 15 or vec:Distance(FinishPos)
+	local dist = LocalPlayer():GetNWBool("Finished") and 15 or vec:Distance(FinishPos)	
 	local ScaleW = ScrW() / 1920
 	local ScaleH = ScrH() / 1080
 	local a = 25 * ScaleW
@@ -39,6 +41,14 @@ hook.Add("HUDPaint", "PropFall.TimeLeft", function()
 	surface.DrawRect(ScrW() - d, (ScrH() / 10) * ScaleH, a, b)
 	surface.DrawRect(ScrW() - d, (ScrH() / 10 + FinishDistance / 28 + 10) * ScaleH, a, b)
 	surface.DrawRect(ScrW() - e, (ScrH() / 10) * ScaleH, c, math.Clamp(dist / 28, 0, 860) * ScaleH)
+
+	if !LocalPlayer():GetNWBool("Finished") then
+		highscore =  highscore >= dist and dist or highscore	
+		surface.SetDrawColor( 255, 0, 0, 255)
+		surface.DrawFullCircle(ScrW() - (100 * ScaleW), (ScrH() / 10 + math.Clamp(highscore / 28, 13, 845)) * ScaleH, 10 * ScaleW, 10 * ScaleH)
+		surface.DrawRect(ScrW() - e, (ScrH() / 10 + math.Clamp(highscore / 28, 15, 845)) * ScaleH, c, (858 - math.Clamp(highscore / 28, 13, 845)) * ScaleH)
+	end
+
 	surface.SetDrawColor(0, 255, 0, 255)
 	surface.DrawRect(ScrW() - e, (ScrH() / 10 + math.Clamp(dist / 28, 15, 845)) * ScaleH, c, (858 - math.Clamp(dist / 28, 13, 845)) * ScaleH)
 	surface.DrawFullCircle(ScrW() - (100 * ScaleW), (ScrH() / 10 + math.Clamp(dist / 28, 13, 845)) * ScaleH, 10 * ScaleW, 10 * ScaleH)
@@ -297,7 +307,8 @@ net.Receive("PropFall.Vote", function()
 			end)
 end)
 
-net.Receive("PropFall.End", function()
+net.Receive("PropFall.End", function()	
+	highscore = FinishDistance		
 	local top3 = net.ReadTable()
 	local matBlurScreen = Material("pp/blurscreen")
 	for a=1, #top3 do
