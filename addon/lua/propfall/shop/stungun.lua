@@ -3,6 +3,10 @@ Item.Price = 10
 Item.Weapon = "weapon_stungun"
 Item.Icon = "propfall/shop/stungun.png"
 Item.Name = "Stun Gun"
-Item.Description = "Shoot a player with this weapon\nto slow him down for 5 seconds. You have 3 Shoots"
+Item.Description = "Shoot a player to slow him down. \nDuration: 5 seconds \nAmmo: 3 Shoots"
+
+function Item:OnBuy(ply)
+	ply:Give(Item.Weapon)
+end
 
 PropFall.AddItem(Item)

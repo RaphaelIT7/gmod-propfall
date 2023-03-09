@@ -25,10 +25,11 @@ PropFall.Models = {
 }
 
 PropFall.Votes = {}
-PropFall.Round = {} -- Round data will be saved in this table
+PropFall.Round = {} -- Round data will be saved in this table. thís table will be cleared when a new round starts.
 PropFall.Spawns = {}
 PropFall.Default = {}
 PropFall.Spawners = {}
+PropFall.Pending_Players = {} -- used to PlayerInitialNetwork so that teh client can Initialize before opening the GUI.
 
 -- default config
 PropFall.Default.TimeLeft = 600

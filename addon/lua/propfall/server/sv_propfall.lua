@@ -10,8 +10,8 @@ local GetPos = reg.Entity.GetPos
 local FindByName = ents.FindByName
 local FindByClass = ents.FindByClass
 timer.Simple(0, function()
-	SetGlobalVector("PropFall.FinishPos", FindByName("PropFall_FinishLine")[1]:GetPos())
-	SetGlobalVector("PropFall.StartPos", FindByName("PropFall_StartLine")[1]:GetPos())
+	SetGlobal2Vector("PropFall.FinishPos", FindByName("PropFall_FinishLine")[1]:GetPos())
+	SetGlobal2Vector("PropFall.StartPos", FindByName("PropFall_StartLine")[1]:GetPos())
 
 	local Spawners = FindByName("PropFall_Spawner")
 	for k=1, #Spawners do
@@ -76,8 +76,14 @@ PropFall.Start = function()
 
 	PropFall.Round.TimeLeft = PropFall.TimeLeft
 	timer.Create("PropFall.Timer", 1, -1, function()
+		if !PropFall.Round.TimeLeft then
+			timer.Remove("PropFall.Spawner")
+			timer.Remove("PropFall.Timer")
+			return
+		end
+
 		PropFall.Round.TimeLeft = PropFall.Round.TimeLeft - 1
-		SetGlobalInt("PropFall.TimeLeft", PropFall.Round.TimeLeft)
+		SetGlobal2Int("PropFall.TimeLeft", PropFall.Round.TimeLeft)
 		if PropFall.Round.TimeLeft == 0 then
 			PropFall.Finish()
 		end
@@ -88,7 +94,7 @@ PropFall.Start = function()
 		if !ply:GetNW2Bool("PropFall.Finished") then
 			PropFall.Round.Finishers[#PropFall.Round.Finishers + 1] = ply
 			ply:SetNW2Bool("PropFall.Finished", true)
-			ply:SetNWInt("Time", PropFall.TimeLeft - PropFall.Round.TimeLeft)
+			ply:SetNWInt("PropFall.Time", PropFall.TimeLeft - PropFall.Round.TimeLeft)
 			PrintMessage(HUD_PRINTTALK, ply:Nick() .. " has reached the Top")
 			if #PropFall.Round.Finishers == player.GetCount() then
 				PropFall.Finish()
@@ -97,6 +103,7 @@ PropFall.Start = function()
 				PropFall.Round.TimeLeft = 60
 			end
 		end
+
 		return true
 	end)
 
@@ -124,7 +131,7 @@ PropFall.Finish = function()
 	hook.Remove("DoPlayerDeath", "PropFall.Death")
 	hook.Remove("PlayerNoClip", "PropFall.Noclip")
 	hook.Remove("EntityTakeDamage", "PropFall.Finish")
-	SetGlobalInt("PropFall.TimeLeft", 0)
+	SetGlobal2Int("PropFall.TimeLeft", 0)
 	PropFall.Round.Status = PropFall.Finished
 	hook.Run("PropFall.Status", PropFall.Round.Status)
 
@@ -172,7 +179,7 @@ PropFall.CountDown = function(mode)
 	hook.Remove("DoPlayerDeath", "PropFall.Death")
 	hook.Remove("PlayerNoClip", "PropFall.Noclip")
 	hook.Remove("EntityTakeDamage", "PropFall.Finish")
-	SetGlobalInt("PropFall.TimeLeft", PropFall.TimeLeft)
+	SetGlobal2Int("PropFall.TimeLeft", PropFall.TimeLeft)
 	PropFall.Round.Status = PropFall.Starting
 	hook.Run("PropFall.Status", PropFall.Round.Status)
 	PropFall.Spawner(mode)
@@ -203,12 +210,12 @@ PropFall.CountDown = function(mode)
 end
 
 PropFall.Waiting = function()
-	SetGlobalInt("PropFall.Votes.Easy", 0)
-	SetGlobalInt("PropFall.Votes.Medium", 0)
-	SetGlobalInt("PropFall.Votes.Hard", 0)
-	SetGlobalInt("PropFall.Votes.Insane", 0)
-	SetGlobalInt("PropFall.VoteTime", 0)
-	SetGlobalInt("PropFall.StartDelay", PropFall.StartDelay)
+	SetGlobal2Int("PropFall.Votes.Easy", 0)
+	SetGlobal2Int("PropFall.Votes.Medium", 0)
+	SetGlobal2Int("PropFall.Votes.Hard", 0)
+	SetGlobal2Int("PropFall.Votes.Insane", 0)
+	SetGlobal2Int("PropFall.StartDelay", PropFall.StartDelay)
+	SetGlobal2Int("PropFall.VoteTime", 0)
 	PropFall.Round = {}
 	PropFall.Round.Finishers = {}
 	PropFall.Round.Status = PropFall.Waiting
@@ -219,16 +226,20 @@ PropFall.Waiting = function()
 	net.Broadcast()
 
 	hook.Add("PlayerInitialSpawn", "PropFall.Lobby", function(ply)
-		net.Start("PropFall.Vote")
-			net.WriteBool(false)
-		net.Send(ply)
+		PropFall.Pending_Players[ply] = function()
+			timer.Simple(2, function()
+				if PropFall.Round.Status != PropFall.Waiting then return end
+				net.Start("PropFall.Vote")
+					net.WriteBool(false)
+				net.Send(ply)
+			end)
+		end
 	end)
 
 	local players = player.GetAll()
 	for k=1, #players do
 		local ply = players[k]
-		ply:SetPos(PropFall.Spawns[math.random(1, #PropFall.Spawns)])
-		ply:SetMoveType(MOVETYPE_NONE)
+		ply:Spawn()
 	end
 
 	hook.Add("Move", "PropFall.Lobby", function(ply)
@@ -237,8 +248,19 @@ PropFall.Waiting = function()
 	end)
 end
 
+gameevent.Listen("OnRequestFullUpdate")
+hook.Add("OnRequestFullUpdate", "PropFall.PlayerInitialNetwork", function(data)
+	local ply = Entity(data.index + 1)
+	if !IsValid(ply) then return end
+	local func = PropFall.Pending_Players[ply]
+	if func then
+		func()
+		PropFall.Pending_Players[ply] = nil
+	end
+end)
+
 local pairs = pairs
-local SetGlobalInt = SetGlobalInt
+local SetGlobal2Int = SetGlobal2Int
 net.Receive("PropFall.Vote", function(_, ply)
 	local vote = net.ReadUInt(3)
 	if PropFall.Round.Status != PropFall.Waiting then return end
@@ -260,10 +282,10 @@ net.Receive("PropFall.Vote", function(_, ply)
 			Insane = Insane + 1
 		end
 	end
-	SetGlobalInt("PropFall.Votes.Easy", Easy)
-	SetGlobalInt("PropFall.Votes.Medium", Medium)
-	SetGlobalInt("PropFall.Votes.Hard", Hard)
-	SetGlobalInt("PropFall.Votes.Insane", Insane)
+	SetGlobal2Int("PropFall.Votes.Easy", Easy)
+	SetGlobal2Int("PropFall.Votes.Medium", Medium)
+	SetGlobal2Int("PropFall.Votes.Hard", Hard)
+	SetGlobal2Int("PropFall.Votes.Insane", Insane)
 	PropFall.Round.Easy = Easy
 	PropFall.Round.Medium = Medium
 	PropFall.Round.Hard = Hard
@@ -273,7 +295,7 @@ net.Receive("PropFall.Vote", function(_, ply)
 		if !timer.Exists("PropFall.Voting") then
 			local time = (Easy + Medium + Hard + Insane) == player.GetCount() and 5 or PropFall.VoteTime
 			timer.Create("PropFall.Voting", 1, time, function()
-				SetGlobalInt("PropFall.VoteTime", time)
+				SetGlobal2Int("PropFall.VoteTime", time)
 				time = time - 1
 				if time == 0 then
 					local Easy = 0

@@ -1,12 +1,9 @@
-net.Receive("PropFall.Points", function()
-	notification.AddLegacy("You received one point.", NOTIFY_HINT, 3)
-end)
-
 hook.Add("KeyPress", "PropFall.Shop", function(_, KEY)
 	if KEY == IN_USE then
-		if GetGlobalInt("PropFall.TimeLeft") == 0 then
+		if GetGlobal2Int("PropFall.TimeLeft") == 0 then
 			LocalPlayer():ChatPrint("You cannot use the shop right now!")
 		else
+			local close
 			local shop = vgui.Create("DFrame")
 			shop:SetSize(ScrW() / 4, ScrH() / 2)
 			shop:Center()
@@ -15,7 +12,27 @@ hook.Add("KeyPress", "PropFall.Shop", function(_, KEY)
 			shop:SetTitle("Propfall - Pointshop")
 			shop:SetDraggable(false)
 			shop:ShowCloseButton(false)
+			shop.h = 28
+			shop.lerpy = 0
+			shop.close = false
 			shop.Paint = function(self, w, h)
+				if !shop.close then
+					if shop.h != shop:GetTall() then
+						h = Lerp(shop.lerpy, 28, h)
+						shop.h = h
+						shop.lerpy = math.min(shop.lerpy + FrameTime() * 2.5, 1)
+					end
+				else
+					h = Lerp(shop.lerpy, 0, h)
+					shop.h = h
+					shop.lerpy = math.max(shop.lerpy - FrameTime() * 2.5, 0)
+
+					if h == 0 then
+						self:Remove()
+						return
+					end
+				end
+
 				surface.SetDrawColor(PropFall.Colors["Default"])
 				surface.DrawRect(0, 0, w, h)
 
@@ -24,11 +41,30 @@ hook.Add("KeyPress", "PropFall.Shop", function(_, KEY)
 
 				surface.SetDrawColor(PropFall.Colors["Outline"])
 				surface.DrawOutlinedRect(0, 0, w, h, 1)
+
+				for _, v in ipairs(self:GetChildren()) do
+					local _, y = v:GetPos()
+					if (y + v:GetTall()) < h then
+						v:SetVisible(true)
+					else
+						if !v.GetTextColor and y < h then
+							for _, child in ipairs(v:GetChildren()) do
+								local _, y2 = child:GetPos()
+								child:SetVisible(child.default_vis and (y + y2 + child:GetTall()) < h or false)
+							end
+							v:SetVisible(true)
+						else
+							v:SetVisible(false)
+						end
+					end
+				end
+
+				shop:ShowCloseButton(false)
 			end
 
 			PropFall.Shop = shop
 
-			local close = vgui.Create("DButton", shop)
+			close = vgui.Create("DButton", shop)
 			close:SetSize(40, 20)
 			close:SetPos(shop:GetWide() - 44, 4)
 			close:SetText("r")
@@ -39,9 +75,12 @@ hook.Add("KeyPress", "PropFall.Shop", function(_, KEY)
 				surface.DrawRect(0, 0, w, h)
 			end
 			close.DoClick = function()
+				shop:SetKeyBoardInputEnabled(false)
+				shop:SetMouseInputEnabled(false)
 				surface.PlaySound("ui/buttonclick.wav")
-				shop:Remove()
+				shop.close = true
 			end
+			PropFall.Shop.CloseFunc = close.DoClick
 
 			local welcome = vgui.Create("DLabel", shop)
 			welcome:SetSize(shop:GetWide() / 1.2, shop:GetTall() / 6)
@@ -49,17 +88,24 @@ hook.Add("KeyPress", "PropFall.Shop", function(_, KEY)
 			welcome:SetFont("Trebuchet18")
 			welcome:SetContentAlignment(5)
 			welcome:SetText("Welcome to the Pointshop.\nyou can buy one-time items with points you received.")
+			welcome:SetTextColor(Color(255, 255, 255))
 
 			local points = vgui.Create("DLabel", shop)
 			points:SetSize(shop:GetWide() / 1.2, shop:GetTall() / 6)
 			points:SetPos(shop:GetWide() / 10, shop:GetTall() / 10)
 			points:SetFont("Trebuchet18")
 			points:SetText("You currently have " .. LocalPlayer():GetNW2Int("PropFall.Points") .. " points")
+			points:SetTextColor(Color(255, 255, 255))
 
 			local items = vgui.Create("DPanel", shop)
 			items:SetSize(shop:GetWide() / 2.05, shop:GetTall() / 1.5)
 			items:SetPos(5, shop:GetTall() - (items:GetTall() + 5))
 			items.Paint = function(self, w, h)
+				local _, x = self:GetPos()
+				if (h + x) > shop.h then
+					h = shop.h - x - 4
+				end
+
 				surface.SetDrawColor(PropFall.Colors["Default"])
 				surface.DrawRect(0, 0, w, h)
 
@@ -76,6 +122,11 @@ hook.Add("KeyPress", "PropFall.Shop", function(_, KEY)
 			iteminfo:SetSize(shop:GetWide() / 2.05, shop:GetTall() / 1.5)
 			iteminfo:SetPos(shop:GetWide() - (iteminfo:GetWide() + 5), shop:GetTall() - (iteminfo:GetTall() + 5))
 			iteminfo.Paint = function(self, w, h)
+				local _, x = self:GetPos()
+				if (h + x) > shop.h then
+					h = shop.h - x - 4
+				end
+
 				surface.SetDrawColor(PropFall.Colors["Default"])
 				surface.DrawRect(0, 0, w, h)
 
@@ -98,9 +149,9 @@ hook.Add("KeyPress", "PropFall.Shop", function(_, KEY)
 
 			local item_description = vgui.Create("DLabel", iteminfo)
 			item_description:SetFont("Trebuchet18")
-			item_description:SetSize(iteminfo:GetWide() - 8, iteminfo:GetTall() / 10)
+			item_description:SetSize(iteminfo:GetWide() - 12, iteminfo:GetTall() / 8)
 			item_description:SetContentAlignment(5)
-			item_description:SetPos(4, 70)
+			item_description:SetPos(6, 70)
 			item_description:SetTextColor(PropFall.Colors["Text"])
 			item_description:SetVisible(false)
 
@@ -124,18 +175,24 @@ hook.Add("KeyPress", "PropFall.Shop", function(_, KEY)
 				surface.DrawOutlinedRect(0, 0, w, h, 1)
 			end
 
-
+			local x = 6
 			local row = 40
 			for k, v in ipairs(PropFall.Items) do
-				local x = 6
 				if k > 1 then
 					x = x + 72
 				end
+
+				if x + 64 > items:GetWide() then
+					row = row + 70
+					x = 6
+				end
+
 				local item = vgui.Create("DImageButton", items)
+				item.time = 0
 				item:SetSize(64, 64)
 				item:SetPos(x, row)
 				item:SetImage(v.Icon)
-				item:SetKeepAspect(true)
+				item:SetKeepAspect(false)
 				item.DoClick = function(self)
 					item_name:SetText(v.Name)
 					item_name:SetVisible(true)
@@ -145,6 +202,13 @@ hook.Add("KeyPress", "PropFall.Shop", function(_, KEY)
 
 					item_buy:SetVisible(true)
 					item_buy.itemid = k
+				end
+			end
+
+			for _, v in ipairs(shop:GetChildren()) do
+				v.default_vis = v:IsVisible()
+				for _, child in ipairs(v:GetChildren()) do
+					child.default_vis = child:IsVisible()
 				end
 			end
 		end

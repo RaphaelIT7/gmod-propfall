@@ -1,4 +1,3 @@
-util.AddNetworkString("PropFall.Points")
 util.AddNetworkString("PropFall.Buy")
 hook.Add("PropFall.Status", "PropFall.Shop", function(status)
 	if status == PropFall.Started then
@@ -9,8 +8,8 @@ hook.Add("PropFall.Status", "PropFall.Shop", function(status)
 					local ply = plys[k]
 					ply:SetNW2Int("PropFall.Points", ply:GetNW2Int("PropFall.Points") + PropFall.Points)
 				end
-				net.Start("PropFall.Points")
-				net.Broadcast()
+
+				PropFall.Notify("You received " .. PropFall.Points .. (PropFall.Points > 1 and " points." or " point."), 3, 5) -- 3 = NOTIFY_HINT
 			end)
 		end
 	elseif status == PropFall.Finished then
@@ -31,7 +30,10 @@ net.Receive("PropFall.Buy", function(_, ply)
 		local Money = ply:GetNW2Int("PropFall.Points") - Item.Price
 		if Money >= 0 then
 			ply:SetNW2Int("PropFall.Points", Money)
-			ply:Give(Item.Weapon)
+			Item:OnBuy(ply)
+			ply:PropFall_Notify("You bought the Item: " .. Item.Name .. " for " .. Item.Price .. " points.", 3, 5)
+		else
+			ply:PropFall_Notify("You don't have enough points to buy this Item!", 1, 5)
 		end
 	end
 end)

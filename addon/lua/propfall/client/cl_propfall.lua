@@ -1,13 +1,15 @@
-function surface.DrawFullCircle(x, y, radius, seg)
+local surface = surface
+local math = math
+local function DrawFullCircle(x, y, radius, seg)
 	local cir = {}
 
-	table.insert(cir, {x = x, y = y, u = 0.5, v = 0.5})
+	cir[#cir + 1] = {x = x, y = y, u = 0.5, v = 0.5}
 	for i = 0, seg do
 		local a = math.rad((i / seg) * -360)
-		table.insert(cir, {x = x + math.sin(a) * radius, y = y + math.cos(a) * radius, u = math.sin(a) / 2 + 0.5, v = math.cos(a) / 2 + 0.5})
+		cir[#cir + 1] = {x = x + math.sin(a) * radius, y = y + math.cos(a) * radius, u = math.sin(a) / 2 + 0.5, v = math.cos(a) / 2 + 0.5}
 	end
 	local a = math.rad(0) -- This is needed for non absolute segment counts
-	table.insert(cir, {x = x + math.sin(a) * radius, y = y + math.cos(a) * radius, u = math.sin(a) / 2 + 0.5, v = math.cos(a) / 2 + 0.5})
+	cir[#cir + 1] = {x = x + math.sin(a) * radius, y = y + math.cos(a) * radius, u = math.sin(a) / 2 + 0.5, v = math.cos(a) / 2 + 0.5}
 	surface.DrawPoly(cir)
 end
 
@@ -16,12 +18,14 @@ local StartPos = StartPos
 local FinishDistance = FinishDistance
 local highscore = highscore
 timer.Simple(0, function()
-	FinishPos = GetGlobalVector("PropFall.FinishPos")
-	StartPos = GetGlobalVector("PropFall.StartPos")
+	FinishPos = GetGlobal2Vector("PropFall.FinishPos")
+	StartPos = GetGlobal2Vector("PropFall.StartPos")
 	FinishDistance = FinishPos:Distance(Vector(StartPos[1], FinishPos[2], StartPos[3]))
 	highscore = FinishDistance
 end)
 
+local GetGlobal2Int = GetGlobal2Int
+local string = string
 hook.Add("HUDPaint", "PropFall.TimeLeft", function()
 
 	-- Distance
@@ -29,33 +33,45 @@ hook.Add("HUDPaint", "PropFall.TimeLeft", function()
 	local vec = Vector(pos[1], FinishPos[2], pos[3])
 	local dist = LocalPlayer():GetNW2Bool("PropFall.Finished") and 15 or vec:Distance(FinishPos)
 	highscore = LocalPlayer():GetNW2Bool("PropFall.Finished") and 24912 or highscore >= dist and dist or highscore	
-	local ScaleW = ScrW() / 1920
-	local ScaleH = ScrH() / 1080
+	local ScrW = ScrW()
+	local ScrH = ScrH()
+	local ScaleW = ScrW / 1920
+	local ScaleH = ScrH / 1080
 	local a = 25 * ScaleW
 	local b = 5 * ScaleH
 	local c = 5 * ScaleW
 	local d = 112.5 * ScaleW
 	local e = 102.5 * ScaleW
 	surface.SetDrawColor(100, 100, 100, 255)
-	surface.DrawRect(ScrW() - d, (ScrH() / 10) * ScaleH, a, b)
-	surface.DrawRect(ScrW() - d, (ScrH() / 10 + FinishDistance / 28 + 10) * ScaleH, a, b)
-	surface.DrawRect(ScrW() - e, (ScrH() / 10) * ScaleH, c, math.Clamp(dist / 28, 0, 860) * ScaleH)
+	surface.DrawRect(ScrW - d, (ScrH / 10) * ScaleH, a, b)
+	surface.DrawRect(ScrW - d, (ScrH / 10 + FinishDistance / 28 + 10) * ScaleH, a, b)
+	surface.DrawRect(ScrW - e, (ScrH / 10) * ScaleH, c, math.Clamp(dist / 28, 0, 860) * ScaleH)
 
 	if !LocalPlayer():GetNW2Bool("PropFall.Finished") then
 		surface.SetDrawColor(255, 0, 0, 255)
-		surface.DrawFullCircle(ScrW() - (100 * ScaleW), (ScrH() / 10 + math.Clamp(highscore / 28, 13, 845)) * ScaleH, 10 * ScaleW, 10 * ScaleH)
-		surface.DrawRect(ScrW() - e, (ScrH() / 10 + math.Clamp(highscore / 28, 15, 845)) * ScaleH, c, (858 - math.Clamp(highscore / 28, 13, 845)) * ScaleH)
+		DrawFullCircle(ScrW - (100 * ScaleW), (ScrH / 10 + math.Clamp(highscore / 28, 13, 845)) * ScaleH, 10 * ScaleW, 10 * ScaleH)
+		surface.DrawRect(ScrW - e, (ScrH / 10 + math.Clamp(highscore / 28, 15, 845)) * ScaleH, c, (858 - math.Clamp(highscore / 28, 13, 845)) * ScaleH)
 	end
 
 	surface.SetDrawColor(0, 255, 0, 255)
-	surface.DrawRect(ScrW() - e, (ScrH() / 10 + math.Clamp(dist / 28, 15, 845)) * ScaleH, c, (858 - math.Clamp(dist / 28, 13, 845)) * ScaleH)
-	surface.DrawFullCircle(ScrW() - (100 * ScaleW), (ScrH() / 10 + math.Clamp(dist / 28, 13, 845)) * ScaleH, 10 * ScaleW, 10 * ScaleH)
+	surface.DrawRect(ScrW - e, (ScrH / 10 + math.Clamp(dist / 28, 15, 845)) * ScaleH, c, (858 - math.Clamp(dist / 28, 13, 845)) * ScaleH)
+	DrawFullCircle(ScrW - (100 * ScaleW), (ScrH / 10 + math.Clamp(dist / 28, 13, 845)) * ScaleH, 10 * ScaleW, 10 * ScaleH)
 
 	-- TimeLeft
+	surface.SetDrawColor(100, 100, 100, 255)
+	surface.DrawRect(ScrW / 2 - (62  * ScaleW), (ScrH / 40 - (3 * ScaleH)) * ScaleH, 137 * ScaleW, 25 * ScaleH) -- text background
+
+	surface.SetDrawColor(75, 75, 75, 255)
+	surface.DrawOutlinedRect(ScrW / 2 - (62  * ScaleW), (ScrH / 40 - (3 * ScaleH)) * ScaleH, 137 * ScaleW, 25 * ScaleH, 4) -- outline
+
+	surface.SetDrawColor(0, 0, 0, 255)
+	surface.DrawOutlinedRect(ScrW / 2 - (62  * ScaleW), (ScrH / 40 - (3 * ScaleH)) * ScaleH, 137 * ScaleW, 25 * ScaleH, 1) -- outer black line
+	surface.DrawOutlinedRect(ScrW / 2 - (59  * ScaleW), (ScrH / 40) * ScaleH, 131 * ScaleW, 19 * ScaleH, 1) -- inner black line
+
 	surface.SetFont("ChatFont")
-	surface.SetTextColor(50, 50, 50, 255)
-	surface.SetTextPos(ScrW() / 2 - (57  * ScaleW), (ScrH() / 40) * ScaleH)
-	surface.DrawText("Timeleft : " .. string.FormattedTime(GetGlobalInt("PropFall.TimeLeft"), "%02i:%02i"), false)
+	surface.SetTextColor(200, 200, 200, 255)
+	surface.SetTextPos(ScrW / 2 - (57  * ScaleW), (ScrH / 40) * ScaleH)
+	surface.DrawText("Timeleft : " .. string.FormattedTime(GetGlobal2Int("PropFall.TimeLeft"), "%02i:%02i"), false)
 end)
 
 local frame = frame or nil
@@ -64,8 +80,13 @@ net.Receive("PropFall.Vote", function()
 		return true
 	end)
 
+	FinishPos = GetGlobal2Vector("PropFall.FinishPos")
+	StartPos = GetGlobal2Vector("PropFall.StartPos")
+	FinishDistance = FinishPos:Distance(Vector(StartPos[1], FinishPos[2], StartPos[3]))
+	highscore = FinishDistance
+
 	if IsValid(PropFall.Shop) then
-		PropFall.Shop:Remove()
+		PropFall.Shop.CloseFunc()
 	end
 
 	local bool = net.ReadBool()
@@ -95,15 +116,62 @@ net.Receive("PropFall.Vote", function()
 		timer.Remove("Hard.Votes")
 		timer.Remove("Insane.Votes")
 		timer.Remove("Timeleft")
-		timer.Simple(GetGlobalInt("PropFall.StartDelay"), function()
+		timer.Simple(GetGlobal2Int("PropFall.StartDelay"), function()
 			hook.Remove("PlayerFootstep", "PropFall.AntiFootstep")
 		end)
 	end
+	frame.h = 28
+	frame.lerpy = 0
+	frame.close = false
 	frame.Paint = function(self, w, h)
+		if !self.close then
+			if self.h != self:GetTall() then
+				h = Lerp(self.lerpy, 28, h)
+				self.h = h
+				self.lerpy = math.min(self.lerpy + FrameTime() * 1.5, 1)
+				if h == self:GetTall() then
+					for _, v in ipairs(self:GetChildren()) do
+						v:SetVisible(true)
+						for _, child in ipairs(v:GetChildren()) do
+							child:SetVisible(true)
+						end
+					end
+				end
+			end
+		else
+			h = Lerp(self.lerpy, 0, h)
+			self.h = h
+			self.lerpy = math.max(self.lerpy - FrameTime() * 1.5, 0)
+
+			if h == 0 then
+				self:Remove()
+				return
+			end
+		end
+
 		surface.SetDrawColor(PropFall.Colors["Default"])
 		surface.DrawRect(0, 0, w, h)
 		surface.SetDrawColor(PropFall.Colors["Outline"])
 		surface.DrawOutlinedRect(0, 0, w, h, 1)
+
+		for _, v in ipairs(self:GetChildren()) do
+			local _, y = v:GetPos()
+			if (y + v:GetTall()) < h then
+				v:SetVisible(true)
+			else
+				if !v.GetTextColor and y < h then
+					for _, child in ipairs(v:GetChildren()) do
+						local _, y2 = child:GetPos()
+						child:SetVisible(child.default_vis and (y + y2 + child:GetTall()) < h or false)
+					end
+					v:SetVisible(true)
+				else
+					v:SetVisible(false)
+				end
+			end
+		end
+
+		frame:ShowCloseButton(false)
 	end
 
 	local title = vgui.Create("DLabel", frame)
@@ -119,7 +187,7 @@ net.Receive("PropFall.Vote", function()
 	timeleft:SetText("Time to Vote : 00:00")
 
 	timer.Create("Timeleft", 1, -1, function()
-		timeleft:SetText("Time to Vote : " .. string.FormattedTime(GetGlobalInt("PropFall.VoteTime"), "%02i:%02i"))
+		timeleft:SetText("Time to Vote : " .. string.FormattedTime(GetGlobal2Int("PropFall.VoteTime"), "%02i:%02i"))
 	end)
 
 	local selected
@@ -134,10 +202,16 @@ net.Receive("PropFall.Vote", function()
 			button:SetFont("DermaLarge")
 			button:SetTextColor(PropFall.Colors["Text"])
 			button.i = 2
-			button.last = CurTime()
+			button.last = 0
 			button.Paint = function(self, w, h)
+				local _, x = self:GetPos()
+				if (h + x) > frame.h then
+					h = frame.h - x - 4
+				end
+
 				surface.SetDrawColor(PropFall.Colors["Background"])
 				if self:IsHovered() or selected == self then
+					self.last = self.last + FrameTime()
 					surface.DrawOutlinedRect(0, 0, w, h, math.floor(math.sin(self.last * 2) * 8) + 10 )
 				end
 				surface.DrawOutlinedRect(0, 0, w, h, 2)
@@ -149,17 +223,11 @@ net.Receive("PropFall.Vote", function()
 				selected = button
 			end
 
-			timer.Create("Easy.Button", 0.02, -1, function()
-				if button:IsHovered() or selected == button then
-					button.last = button.last + 0.02
-				end
-			end)
-
 			local votes = vgui.Create("DLabel", easy)
 			votes:SetSize(easy:GetWide(), 20)
 			votes:SetPos(0, easy:GetTall() / 1.4)
 			votes:SetContentAlignment(5)
-			votes:SetText("Votes : ")
+			votes:SetText("Votes : 0")
 			votes.Paint = function(self, w, h)
 				surface.SetDrawColor(PropFall.Colors["Background"])
 				surface.DrawOutlinedRect(0, 0, w, h, 2)
@@ -168,8 +236,9 @@ net.Receive("PropFall.Vote", function()
 				surface.SetDrawColor(PropFall.Colors["Background"])
 			end
 
-			timer.Create("Easy.Votes", 0.02, -1, function()
-				votes:SetText("Votes : " .. GetGlobalInt("PropFall.Votes.Easy"))
+			timer.Create("Easy.Votes", 0.1, -1, function()
+				if !IsValid(votes) then return end
+				votes:SetText("Votes : " .. GetGlobal2Int("PropFall.Votes.Easy"))
 			end)
 
 		local medium = vgui.Create("DPanel", frame)
@@ -183,9 +252,15 @@ net.Receive("PropFall.Vote", function()
 			button:SetFont("DermaLarge")
 			button:SetTextColor(PropFall.Colors["Text"])
 			button.i = 2
-			button.last = CurTime()
+			button.last = 0
 			button.Paint = function(self, w, h)
+				local _, x = self:GetPos()
+				if (h + x) > frame.h then
+					h = frame.h - x - 4
+				end
+
 				if self:IsHovered() or selected == self then
+					self.last = self.last + FrameTime()
 					surface.DrawOutlinedRect(0, 0, w, h, math.floor(math.sin(self.last * 2) * 8) + 10 )
 				end
 				surface.DrawOutlinedRect(0, 0, w, h, 2)
@@ -207,7 +282,7 @@ net.Receive("PropFall.Vote", function()
 			votes:SetSize(medium:GetWide(), 20)
 			votes:SetPos(0, medium:GetTall() / 1.4)
 			votes:SetContentAlignment(5)
-			votes:SetText("Votes : ")
+			votes:SetText("Votes : 0")
 			votes.Paint = function(self, w, h)
 				surface.SetDrawColor(PropFall.Colors["Background"])
 				surface.DrawOutlinedRect(0, 0, w, h, 2)
@@ -216,10 +291,10 @@ net.Receive("PropFall.Vote", function()
 				surface.SetDrawColor(PropFall.Colors["Background"])
 			end
 
-			timer.Create("Medium.Votes", 0.02, -1, function()
-				votes:SetText("Votes : " .. GetGlobalInt("PropFall.Votes.Medium"))
+			timer.Create("Medium.Votes", 0.1, -1, function()
+				if !IsValid(votes) then return end
+				votes:SetText("Votes : " .. GetGlobal2Int("PropFall.Votes.Medium"))
 			end)
-
 
 		local hard = vgui.Create("DPanel", frame)
 		hard:SetPos(255, 55)
@@ -232,9 +307,15 @@ net.Receive("PropFall.Vote", function()
 			button:SetFont("DermaLarge")
 			button:SetTextColor(PropFall.Colors["Text"])
 			button.i = 2
-			button.last = CurTime()
+			button.last = 0
 			button.Paint = function(self, w, h)
+				local _, x = self:GetPos()
+				if (h + x) > frame.h then
+					h = frame.h - x - 4
+				end
+
 				if self:IsHovered() or selected == self then
+					self.last = self.last + FrameTime()
 					surface.DrawOutlinedRect(0, 0, w, h, math.floor(math.sin(self.last * 2) * 8) + 10 )
 				end
 				surface.DrawOutlinedRect(0, 0, w, h, 2)
@@ -256,7 +337,7 @@ net.Receive("PropFall.Vote", function()
 			votes:SetSize(hard:GetWide(), 20)
 			votes:SetPos(0, hard:GetTall() / 1.4)
 			votes:SetContentAlignment(5)
-			votes:SetText("Votes : ")
+			votes:SetText("Votes : 0")
 			votes.Paint = function(self, w, h)
 				surface.SetDrawColor(PropFall.Colors["Background"])
 				surface.DrawOutlinedRect(0, 0, w, h, 2)
@@ -265,8 +346,9 @@ net.Receive("PropFall.Vote", function()
 				surface.SetDrawColor(PropFall.Colors["Background"])
 			end
 
-			timer.Create("Hard.Votes", 0.02, -1, function()
-				votes:SetText("Votes : " .. GetGlobalInt("PropFall.Votes.Hard"))
+			timer.Create("Hard.Votes", 0.1, -1, function()
+				if !IsValid(votes) then return end
+				votes:SetText("Votes : " .. GetGlobal2Int("PropFall.Votes.Hard"))
 			end)
 
 		local insane = vgui.Create("DPanel", frame)
@@ -280,9 +362,15 @@ net.Receive("PropFall.Vote", function()
 			button:SetFont("DermaLarge")
 			button:SetTextColor(PropFall.Colors["Text"])
 			button.i = 2
-			button.last = CurTime()
+			button.last = 0
 			button.Paint = function(self, w, h)
+				local _, x = self:GetPos()
+				if (h + x) > frame.h then
+					h = frame.h - x - 4
+				end
+
 				if self:IsHovered() or selected == self then
+					self.last = self.last + FrameTime()
 					surface.DrawOutlinedRect(0, 0, w, h, math.floor(math.sin(self.last * 2) * 8) + 10 )
 				end
 				surface.DrawOutlinedRect(0, 0, w, h, 2)
@@ -304,7 +392,7 @@ net.Receive("PropFall.Vote", function()
 			votes:SetSize(insane:GetWide(), 20)
 			votes:SetPos(0, insane:GetTall() / 1.4)
 			votes:SetContentAlignment(5)
-			votes:SetText("Votes : ")
+			votes:SetText("Votes : 0")
 			votes.Paint = function(self, w, h)
 				surface.SetDrawColor(PropFall.Colors["Background"])
 				surface.DrawOutlinedRect(0, 0, w, h, 2)
@@ -313,9 +401,17 @@ net.Receive("PropFall.Vote", function()
 				surface.SetDrawColor(PropFall.Colors["Background"])
 			end
 
-			timer.Create("Insane.Votes", 0.02, -1, function()
-				votes:SetText("Votes : " .. GetGlobalInt("PropFall.Votes.Insane"))
+			timer.Create("Insane.Votes", 0.1, -1, function()
+				if !IsValid(votes) then return end
+				votes:SetText("Votes : " .. GetGlobal2Int("PropFall.Votes.Insane"))
 			end)
+
+	for _, v in ipairs(frame:GetChildren()) do
+		v.default_vis = v:IsVisible()
+		for _, child in ipairs(v:GetChildren()) do
+			child.default_vis = child:IsVisible()
+		end
+	end
 end)
 
 net.Receive("PropFall.End", function()
@@ -327,6 +423,7 @@ net.Receive("PropFall.End", function()
 		top3[a][1] = ply:Nick()
 		top3[a][2] = ply:GetNWInt("Time")
 	end
+
 	local first_time = string.format(top3[1][2], "%02i:%02i")
 	local second_time = string.format(top3[2][2], "%02i:%02i")
 	local third_time = string.format(top3[3][2], "%02i:%02i")
@@ -388,6 +485,7 @@ net.Receive("PropFall.End", function()
 		surface.SetTextPos(ScrW() / 1.56, ScrH() / 1.68)
 		surface.DrawText(top3[3][1])
 	end)
+
 	timer.Simple(10, function()
 		hook.Remove("HUDPaint", "PropFall.Winners")
 	end)
@@ -395,9 +493,8 @@ end)
 
 net.Receive("PropFall.Death", function()
 	local Ent = {[1] = net.ReadEntity()}
-	local HaloColor = Color(255, 0, 0, 255)
 	hook.Add("PreDrawHalos", "PropFall.DeathHalo", function()
-		halo.Add(Ent, HaloColor, 10, 10, 5, true, true)
+		halo.Add(Ent, PropFall.Colors["Halo"], 10, 10, 5, true, true)
 	end)
 
 	timer.Simple(5, function()
