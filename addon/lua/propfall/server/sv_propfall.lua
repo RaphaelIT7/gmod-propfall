@@ -341,3 +341,9 @@ net.Receive("PropFall.Vote", function(_, ply)
 		end
 	end
 end)
+
+hook.Add("Think", "Propfall_Gravity", function()
+	for _, ply in player.Iterator() do
+		ply:SetNW2Float("Propfall_Gravity", ply:GetGravity())
+	end
+end)

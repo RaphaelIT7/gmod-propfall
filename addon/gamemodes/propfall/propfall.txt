@@ -1,0 +1,12 @@
+"sandbox"
+{
+	"base"		"sandbox"
+	"title"		"Propfall"
+	"category"	"other"
+	"maps"		"^propfall"
+	"menusystem"	"0"
+
+	"settings"
+	{
+	}
+}

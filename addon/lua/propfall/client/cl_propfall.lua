@@ -501,3 +501,7 @@ net.Receive("PropFall.Death", function()
 		hook.Remove("PreDrawHalos", "PropFall.DeathHalo")
 	end)
 end)
+
+hook.Add("SetupMove", "Propfall_Gravity", function(ply)
+	ply:SetGravity(ply:GetNW2Float("Propfall_Gravity", 1))
+end)
